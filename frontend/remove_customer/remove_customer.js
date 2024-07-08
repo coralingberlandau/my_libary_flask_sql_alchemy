@@ -1,3 +1,5 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
 // Function to parse JWT token
 const parseJwt = (token) => {
     try {
@@ -12,8 +14,6 @@ const parseJwt = (token) => {
     }
 }
 
-const SERVER = 'http://127.0.0.1:5000';
-
 document.addEventListener('DOMContentLoaded', function() {
     const removeButton = document.getElementById('removeButton');
     const successModal = document.getElementById('successModal');
@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!token) {
             console.error('JWT token not found in localStorage');
             errorMessage.textContent = 'JWT token not found. Please log in.';
-            // Optionally, redirect to login page or display login modal
             return;
         }
 
@@ -36,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!userInfo) {
             console.error('Invalid token');
             errorMessage.textContent = 'Invalid token. Please log in again.';
-            // Optionally, redirect to login page or display login modal
             return;
         }
 

@@ -1,4 +1,4 @@
-// find_book //
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
 
 // Function to parse JWT token
 const parseJwt = (token) => {
@@ -31,7 +31,7 @@ if (token) {
     console.error('No access token found. Please log in.');
 }
 
-const SERVER = 'http://127.0.0.1:5000';
+// find_book //
 
 document.addEventListener('DOMContentLoaded', function () {
     const searchButton = document.getElementById('searchButton');
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/book/${encodeURIComponent(bookName)}`);
+            const response = await axios.get(`${SERVER}/book/${encodeURIComponent(bookName)}`);
             const book = response.data;
 
             booksTableBody.innerHTML = '';

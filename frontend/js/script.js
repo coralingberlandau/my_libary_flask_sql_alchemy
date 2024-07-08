@@ -1,3 +1,5 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
 // Function to parse JWT token
 const parseJwt = (token) => {
     try {
@@ -33,9 +35,13 @@ if (token) {
     window.location.href = 'login/login.html';
 }
 
-const SERVER = 'http://127.0.0.1:5000';
-
 // index - home \\
+
+window.onload = function(){
+    const username = localStorage.getItem('email');
+    console.log(username)
+    document.getElementById('username').innerHTML = `Welcome back ${username}`;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('JavaScript loaded!');

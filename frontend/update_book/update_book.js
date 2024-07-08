@@ -1,6 +1,6 @@
 // Function to update book details
 
-const SERVER = 'http://127.0.0.1:5000';
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
 
 const updateBook = () => {
     const bookId = document.getElementById('bookId').value;

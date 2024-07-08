@@ -1,3 +1,5 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
 // Function to parse JWT token
 const parseJwt = (token) => {
     try {
@@ -28,9 +30,6 @@ if (token) {
 } else {
     console.error('No access token found. Please log in.');
 }
-
-const SERVER = 'http://127.0.0.1:5000';
-
 
 // display_late_loans //
 
@@ -72,4 +71,3 @@ function displayOverdueBookLoans(overdueLoans) {
         tableBody.innerHTML += row;
     });
 }
-

@@ -1,3 +1,5 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
 // Function to handle book loan process
 const loanBook = () => {
     const bookNameInput = document.getElementById('book_name_to_loan');
@@ -19,33 +21,33 @@ const loanBook = () => {
         return;
     }
 
-    axios.get(`http://127.0.0.1:5000/book/${bookName}`, {
+    axios.get(`${SERVER}/book/${bookName}`, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
     })
     .then(response => {
-        const bookId = response.data.id; // Assuming server returns book details including id
+        const bookId = response.data.id; 
 
         const data = {
-            user_id: 1, // Replace with actual user ID
-            book_id: bookId // Use the bookId obtained from the GET request
+            user_id: 1, 
+            book_id: bookId 
         };
 
-        axios.post('http://127.0.0.1:5000/bookloan/create', data, {
+        axios.post(SERVER + '/bookloan/create', data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
-            console.log(response.data.message); // Log success message
+            console.log(response.data.message); 
             let modal = document.getElementById('successModal');
             modal.style.display = 'block';
             // Clear input fields and error messages if needed
-            bookNameInput.value = ''; // Clear input field
-            document.getElementById('error-message').innerText = ''; // Clear error message
+            bookNameInput.value = ''; 
+            document.getElementById('error-message').innerText = ''; 
         })
         .catch(error => {
             console.error('There was an error!', error);

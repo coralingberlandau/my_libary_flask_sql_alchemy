@@ -1,3 +1,5 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
 // Function to parse JWT token
 const parseJwt = (token) => {
     try {
@@ -29,8 +31,6 @@ if (token) {
     console.error('No access token found. Please log in.');
 }
 
-const SERVER = 'http://127.0.0.1:5000';
-
 // add_customer.js
 
 // Function to handle form submission
@@ -57,7 +57,7 @@ const signup = () => {
     };
     
     // Send POST request using Axios
-    axios.post('http://127.0.0.1:5000/register', data)
+    axios.post(SERVER + '/register', data)
         .then(response => {
             console.log('Registration successful:', response.data);
             // Optionally, redirect or show a success message

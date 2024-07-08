@@ -134,22 +134,18 @@ def test():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-## Create_book -- (post) ##  usage = http://127.0.0.1:5000/book/create
+## Create_book -- (post) 
 
 @app.route("/book/create", methods=["POST"])
 @jwt_required()
-@admin_required  # Assuming you have a decorator like this for admin authorization
+@admin_required  
 def create_book():
     try:
-        current_user = get_jwt_identity()
-
-        # Check if the post request has the file part
         if 'image_src' not in request.files:
             return jsonify({'message': 'No file part in the request'}), 400
         
         file = request.files['image_src']
 
-        # If user does not select file, browser also submits an empty part without filename
         if file.filename == '':
             return jsonify({'message': 'No selected file'}), 400
         
@@ -157,22 +153,20 @@ def create_book():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            data = request.form  # Get other form data
+            data = request.form  
             book_name = data.get('book_name')
             author = data.get('author')
             year_published = data.get('year_published')
             type_1_2_3 = data.get('type_1_2_3')
             is_available = data.get('is_available', True)
             is_deleted = data.get('is_deleted', False)
-            image_src = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Save image path
+            image_src = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
 
-            # Convert string 'False'/'True' to boolean False/True if necessary
             if isinstance(is_available, str):
                 is_available = is_available.lower() == 'true'
             if isinstance(is_deleted, str):
                 is_deleted = is_deleted.lower() == 'true'
 
-            # Determine loan_period based on type_1_2_3
             if type_1_2_3 == '1':
                 loan_period = 10
             elif type_1_2_3 == '2':
@@ -190,7 +184,7 @@ def create_book():
                 is_available=is_available,
                 is_deleted=is_deleted,
                 loan_period=loan_period,
-                image_src=image_src  # Set image_src to the saved file path
+                image_src=image_src  
             )
 
             db.session.add(new_book)
@@ -205,9 +199,10 @@ def create_book():
         app.logger.error(f"Error during book creation: {e}")
         return jsonify({'message': 'Failed to create book', 'error': str(e)}), 500
     
-## Read book by name -- (get) ##  usage: http://127.0.0.1:5000/book/<string:book_name> - לשים לב שצאיך לשנות את הסיומת שיהיה כללי
+## Read book by name -- (get)
+
 @app.route("/book/<string:book_name>", methods=['GET'])
-@jwt_required()  # Require JWT token to access this endpoint
+@jwt_required() 
 def get_book_by_name(book_name):
     try:
         print("here")
@@ -225,7 +220,6 @@ def get_book_by_name(book_name):
             "is_deleted": book.is_deleted,
             "loan_period": book.loan_period,
             "image_src": book.image_src  
-
         }
         
         return jsonify(book_detail), 200
@@ -245,10 +239,10 @@ def get_images():
     images = [{'id': file.id, 'userName': file.userName, 'email': file.email, 'filename': file.filename} for file in files]
     return jsonify(images)
 
-## Read all -- (get) ##  usage: http://127.0.0.1:5000/books
+## Read all -- (get) 
 
 @app.route("/books", methods=["GET"])
-#@jwt_required()
+@jwt_required()
 def get_books():
     try:
         books = Book.query.order_by(Book.id).all()
@@ -264,8 +258,7 @@ def get_books():
                 'is_available': book.is_available,
                 'is_deleted': book.is_deleted,
                 'loan_period': book.loan_period,
-                'image_src': book.image_src  # Include image_src in book details
-
+                'image_src': book.image_src 
             }
             books_list.append(book_info)
 
@@ -273,7 +266,7 @@ def get_books():
     except Exception as e:
         return jsonify({'message': 'Failed to retrieve books', 'error': str(e)}), 400
 
-## Update -- (put) ##  usage:http://127.0.0.1:5000/book/update/<int:book_id>  
+## Update -- (put) 
 
 @app.route("/book/update/<int:book_id>", methods=["PUT"])
 @jwt_required()
@@ -318,18 +311,17 @@ def update_book(book_id):
         db.session.rollback()
         return jsonify({'message': f'Error updating book: {str(e)}'}), 500
 
-## Delete -- (deleta) ##  usage:http://127.0.0.1:5000/book/delete/4
+## Delete -- (deleta) 
 
 @app.route("/book/delete/<int:book_id>", methods=["DELETE"])
-@jwt_required()  # Require JWT token to access this endpoint
-@admin_required  # Assuming you have a decorator like this for admin authorization
+@jwt_required() 
+@admin_required  
 def delete_book_by_id(book_id):
     try:
         book = Book.query.get(book_id)
         if not book:
             return jsonify({'message': 'Book not found'}), 404
 
-        # Mark the book as not available and as deleted
         book.is_available = False
         book.is_deleted = True
         db.session.commit()
@@ -342,7 +334,7 @@ def delete_book_by_id(book_id):
 
 ## ^^^^^^^ user ^^^^^^^^^^^^^^^  ## ^^^^^^^ user ^^^^^^^^^^^^^^^
 
-## Read user by name -- (get) ##  usage: http://127.0.0.1:5000/user/<string:user_name> 
+## Read user by name -- (get) 
 
 @app.route("/user/<string:user_name>")
 @jwt_required()
@@ -367,7 +359,7 @@ def get_user_by_name(user_name):
         mimetype='application/json'
     )
 
-## Read all user -- (get) ##  usage: http://127.0.0.1:5000/users
+## Read all user -- (get)
 @app.route("/users", methods=["GET"])
 @jwt_required()
 @admin_required
@@ -391,7 +383,6 @@ def get_users():
             }
             users_list.append(user_detail)
 
-        # Convert list of dictionaries to JSON string using json.dumps
         users_json = json.dumps(users_list, ensure_ascii=False, indent=2)
 
         return app.response_class(
@@ -404,27 +395,24 @@ def get_users():
         return jsonify({'message': 'Failed to retrieve user list', 'error': str(e)}), 500
 
 
-## Delete -- (deleta) ##  usage: http://127.0.0.1:5000/user/delete/<int:id>
+## Delete -- (deleta) 
 
 @app.route("/user/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 @admin_required
 def delete_user_by_id(id):
     try:
-        # Retrieve user by id
         user = User.query.get(id)
         
         if not user:
             return jsonify({'message': 'User not found'}), 404
 
-        # Only admins can delete users
         current_user_id = get_jwt_identity().get("user_id")
         current_user = User.query.get(current_user_id)
         
         if not current_user.is_admin:
             return jsonify({'message': 'Unauthorized to delete this user'}), 403
 
-        # Mark the user as deleted
         user.is_deleted = True
         db.session.commit()
 
@@ -433,14 +421,13 @@ def delete_user_by_id(id):
         app.logger.error(f"Failed to deactivate user: {e}")
         return jsonify({'message': 'Failed to deactivate user', 'error': str(e)}), 500
 
-## Update -- (put) ##  usage: http://127.0.0.1:5000/user/update/1 ==> http://127.0.0.1:5000/user/update/<int:id>
+## Update -- (put) 
 
 @app.route("/user/update/<int:id>", methods=["GET", "PUT"])
 @jwt_required()
 def user_update_by_id(id):
     user = User.query.get_or_404(id)
 
-    # Ensure the authenticated user is updating their own profile or is an admin
     current_user_identity = get_jwt_identity()
     current_user_id = current_user_identity.get("user_id")
     if current_user_id != user.id and not current_user_identity.get("is_admin"):
@@ -482,7 +469,7 @@ def user_update_by_id(id):
         if "is_deleted" in data:
             user.is_deleted = data["is_deleted"]
 
-        user.updated_at = datetime.utcnow()  # Update the updated_at timestamp
+        user.updated_at = datetime.utcnow() 
         db.session.commit()
         return jsonify({"message": "User updated successfully"})
 
@@ -499,7 +486,7 @@ def user_update_by_id(id):
 # ----------------------------------------------------------------------------------- #
 # Routes for registration, login, and private endpoint
 
-## Create user = register -- (post) ##  usage = http://127.0.0.1:5000/register
+## Create user = register -- (post) 
 @app.route('/register', methods=['POST'])
 def register():
     try:
@@ -513,7 +500,7 @@ def register():
         age = data.get('age')
         email = data.get('email')
         password = data.get('password')
-        is_admin = data.get('is_admin', False)  # Default to False if not provided
+        is_admin = data.get('is_admin', False) 
 
         if not user_name or not city or not age or not email or not password:
             return jsonify({'message': 'Username, city, age, email, and password are required'}), 400
@@ -546,7 +533,7 @@ def register():
         app.logger.error(f"Error during registration: {e}")
         return jsonify({'message': 'Internal Server Error'}), 500
 
-## login user -- (post) ##  usage = http://127.0.0.1:5000/login
+## login user -- (post) 
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -561,6 +548,9 @@ def login():
     if not user or not check_password_hash(user.password_hash, password):
         return jsonify({"msg": "Invalid credentials"}), 401
 
+    user.last_login_at = datetime.utcnow()
+    db.session.commit()
+
     identity = user
     access_token = create_access_token(identity=identity, expires_delta=timedelta(days=7))
     return jsonify(access_token=access_token), 200
@@ -568,9 +558,9 @@ def login():
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #BOOK_LOAN
 
-## Create_book_loan -- (post) ##  usage = http://127.0.0.1:5000/bookloan/create
+## Create_book_loan -- (post) 
 @app.route("/bookloan/create", methods=["POST"])
-@jwt_required()  # Require JWT token to access this endpoint
+@jwt_required() 
 def create_book_loan():
     try:
         data = request.get_json()
@@ -594,7 +584,7 @@ def create_book_loan():
 
         due_date = datetime.utcnow() + timedelta(days=book.loan_period)
 
-        book.is_available = False  # Mark the book as not available
+        book.is_available = False 
 
         new_book_loan = BookLoan(
             user_id=user_id,
@@ -612,7 +602,7 @@ def create_book_loan():
         app.logger.error(f"Error during book loan creation: {e}")
         return jsonify({'message': 'Failed to create book loan', 'error': str(e)}), 500
  
-## - Return a Book -- (post) ##  usage = http://127.0.0.1:5000/bookloan/return
+## - Return a Book -- (post)
 @app.route("/bookloan/return", methods=["POST"])
 @jwt_required()
 def return_book_loan():
@@ -634,9 +624,9 @@ def return_book_loan():
         if not book_loan:
             return jsonify({'message': 'Active book loan not found'}), 404
 
-        book_loan.return_date = datetime.utcnow()  # Set the return date
+        book_loan.return_date = datetime.utcnow()  
         book = Book.query.get(book_id)
-        book.is_available = True  # Mark the book as available
+        book.is_available = True  
 
         db.session.commit()
 
@@ -645,7 +635,7 @@ def return_book_loan():
         app.logger.error(f"Error during book return: {e}")
         return jsonify({'message': 'Failed to return book', 'error': str(e)}), 500
 
-# Update -- (put) ##  usage: http://127.0.0.1:5000/bookloan/update/<int:id> 
+# Update -- (put)
 
 @app.route("/bookloan/update/<int:id>", methods=["PUT"])
 @jwt_required()
@@ -660,10 +650,8 @@ def update_book_loan_by_id(id):
         if not loan:
             return jsonify({'message': 'Book loan not found'}), 404
 
-        # Logging the current state of the loan
         app.logger.info(f"Current loan state: {loan}")
 
-        # Update book loan attributes if provided
         if 'return_date' in data:
             try:
                 return_date = datetime.strptime(data['return_date'], '%Y-%m-%d %H:%M:%S')
@@ -672,7 +660,7 @@ def update_book_loan_by_id(id):
             except ValueError:
                 return jsonify({"message": "Invalid date format. Use 'YYYY-MM-DD HH:MM:SS'"}), 400
 
-        db.session.commit()  # Save the changes to the database
+        db.session.commit() 
         app.logger.info(f"Loan updated: {loan}")
         return jsonify({'message': 'Book loan updated successfully'}), 200
     except Exception as e:
@@ -680,7 +668,7 @@ def update_book_loan_by_id(id):
         return jsonify({'message': 'Failed to update book loan', 'error': str(e)}), 500
 
 
-## Read - get_book_loans -- (get) ##  usage: http://127.0.0.1:5000/bookloans
+## Read - get_book_loans -- (get)
 
 @app.route("/bookloans", methods=["GET"])
 @jwt_required()
@@ -705,7 +693,7 @@ def get_book_loans():
         return jsonify({'message': 'Failed to retrieve book loans', 'error': str(e)}), 500
 
 
-## Read - getDisplay Overdue Book Loans -- (get) ##  usage: http://127.0.0.1:5000/overdue_bookloans
+## Read - Display Overdue Book Loans -- (get) 
 
 @app.route("/overdue_bookloans", methods=["GET"])
 @jwt_required()
@@ -737,7 +725,7 @@ def get_overdue_book_loans():
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#### EXAMPLE FOR ME TO TEST
+#### EXAMPLE TO TEST
 
 @app.route('/private', methods=['GET'])
 @jwt_required()

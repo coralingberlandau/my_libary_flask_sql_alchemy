@@ -1,3 +1,7 @@
+const SERVER = 'https://my-libary-flask-sql-alchemy.onrender.com';
+
+// update customer //
+
 const updateUser = () => {
     const userId = document.getElementById('customerId').value;
     const token = localStorage.getItem('accessToken');
@@ -13,7 +17,7 @@ const updateUser = () => {
         is_deleted: document.getElementById('isDeleted').value === 'true'
     };
 
-    axios.put(`http://127.0.0.1:5000/user/update/${userId}`, data, {
+    axios.put(`${SERVER}/user/update/${userId}`, data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -27,4 +31,3 @@ const updateUser = () => {
             document.getElementById('error-message').innerText = 'Failed to update user. Please try again.';
         });
 }
-
