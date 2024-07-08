@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Update Book</title>
+    <link rel="stylesheet" href="update_book.css">
+    <script src="update_book.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0hCXyCLK7mceaeoWdODnF0O0Nq5ZaPpa7A&s" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../add_customer/add_customer.html">Add a new customer</a></li>
+                <li><a href="../add_book/add_book.html">Add a new book</a></li>
+                <li><a href="../loan_book/loan_book.html">Loan a book</a></li>
+                <li><a href="../return_book/return_book.html">Return a book</a></li>
+                <li><a href="../display_books/display_books.html">Display all books</a></li>
+                <li><a href="../display_customers/display_customers.html">Display all customers</a></li>
+                <li><a href="../display_loans/display_loans.html">Display all loans</a></li>
+                <li><a href="../display_late_loans/display_late_loans.html">Display late loans</a></li>
+                <li><a href="../find_book/find_book.html">Find book by name</a></li>
+                <li><a href="../find_customer/find_customer.html">Find customer by name</a></li>
+                <li><a href="../update_book/update_book.html">Update a book</a></li>
+                <li><a href="../update_customer/update_customer.html">Update a customer</a></li> 
+                <li><a href="../remove_book/remove_book.html">Remove book</a></li>
+                <li><a href="../remove_customer/remove_customer.html">Remove customer</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>My Library</h1>
+                <h2>Update a Book</h2>
+            </header>
+            <div class="update-book-container">
+                <form id="updateBookForm">
+                    <div class="input-group">
+                        <label for="bookId">Book ID:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="bookId" name="bookId" placeholder="Enter book ID...">
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="bookName">Book Name:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="bookName" name="bookName" placeholder="Enter book name...">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="author">Author:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="author" name="author" placeholder="Enter author name...">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="yearPublished">Year Published:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="yearPublished" name="yearPublished" placeholder="Enter year published...">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="type">Type (1, 2, or 3):</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="type" name="type" placeholder="Enter type (1, 2, or 3)...">
+                            <i class="fas fa-list-alt"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="isAvailable">Is Available:</label>
+                        <div class="input-with-icon">
+                            <select id="isAvailable" name="isAvailable">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="isDeleted">Is Deleted:</label>
+                        <div class="input-with-icon">
+                            <select id="isDeleted" name="isDeleted">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="image_src">Book Image:</label>
+                        <input type="file" id="image_src" accept="image/*">
+                    </div>
+                    <button type="button" id="updateButton">Update Book</button>
+                    <p class="error-message"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Book updated successfully!</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Coral Landau. All rights reserved.</p>
+        <div class="contact">
+            <p>Contact us:</p>
+            <p><i class="icon-mail"></i> Email: info@library.com</p>
+            <p><i class="icon-phone"></i> Phone: 123-456-7890</p>
+        </div>
+    </footer>
+</body>
+</html>

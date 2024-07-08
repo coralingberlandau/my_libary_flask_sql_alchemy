@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Update Customer</title>
+    <link rel="stylesheet" href="update_customer.css">
+    <script src="update_customer.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0hCXyCLK7mceaeoWdODnF0O0Nq5ZaPpa7A&s" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../add_customer/add_customer.html">Add a new customer</a></li>
+                <li><a href="../add_book/add_book.html">Add a new book</a></li>
+                <li><a href="../loan_book/loan_book.html">Loan a book</a></li>
+                <li><a href="../return_book/return_book.html">Return a book</a></li>
+                <li><a href="../display_books/display_books.html">Display all books</a></li>
+                <li><a href="../display_customers/display_customers.html">Display all customers</a></li>
+                <li><a href="../display_loans/display_loans.html">Display all loans</a></li>
+                <li><a href="../display_late_loans/display_late_loans.html">Display late loans</a></li>
+                <li><a href="../find_book/find_book.html">Find book by name</a></li>
+                <li><a href="../find_customer/find_customer.html">Find customer by name</a></li>
+                <li><a href="../update_book/update_book.html">Update a book</a></li>
+                <li><a href="../update_customer/update_customer.html">Update a customer</a></li> 
+                <li><a href="../remove_book/remove_book.html">Remove book</a></li>
+                <li><a href="../remove_customer/remove_customer.html">Remove customer</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>My Library</h1>
+                <h2>Update a Customer</h2>
+            </header>
+            <div class="update-customer-container">
+                <form id="updateCustomerForm">
+                    <div class="input-group">
+                        <label for="customerId">Customer ID:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="customerId" name="customerId" placeholder="Enter customer ID...">
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="customerName">Customer Name:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="customerName" name="customerName" placeholder="Enter customer name...">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="city">City:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="city" name="city" placeholder="Enter city...">
+                            <i class="fas fa-city"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="age">Age:</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="age" name="age" placeholder="Enter age...">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <div class="input-with-icon">
+                            <input type="email" id="email" name="email" placeholder="Enter email...">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="isAdmin">Is Admin:</label>
+                        <div class="input-with-icon">
+                            <select id="isAdmin" name="isAdmin">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="isDeleted">Is Deleted:</label>
+                        <div class="input-with-icon">
+                            <select id="isDeleted" name="isDeleted">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                    </div>
+                    <button type="button" onclick="updateUser()">Update Customer</button>
+                    <p class="error-message" id="error-message"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Customer updated successfully!</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Coral Landau. All rights reserved.</p>
+        <div class="contact">
+            <p>Contact us:</p>
+            <p><i class="icon-mail"></i> Email: info@library.com</p>
+            <p><i class="icon-phone"></i> Phone: 123-456-7890</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link rel="stylesheet" href="add_book.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="add_book.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0hCXyCLK7mceaeoWdODnF0O0Nq5ZaPpa7A&s"
+        type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../add_customer/add_customer.html">Add a new customer</a></li>
+                <li><a href="../add_book/add_book.html">Add a new book</a></li>
+                <li><a href="../loan_book/loan_book.html">Loan a book</a></li>
+                <li><a href="../return_book/return_book.html">Return a book</a></li>
+                <li><a href="../display_books/display_books.html">Display all books</a></li>
+                <li><a href="../display_customers/display_customers.html">Display all customers</a></li>
+                <li><a href="../display_loans/display_loans.html">Display all loans</a></li>
+                <li><a href="../display_late_loans/display_late_loans.html">Display late loans</a></li>
+                <li><a href="../find_book/find_book.html">Find book by name</a></li>
+                <li><a href="../find_customer/find_customer.html">Find customer by name</a></li>
+                <li><a href="../update_book/update_book.html">Update a book</a></li>
+                <li><a href="../update_customer/update_customer.html">Update a customer</a></li> 
+                <li><a href="../remove_book/remove_book.html">Remove book</a></li>
+                <li><a href="../remove_customer/remove_customer.html">Remove customer</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <center>
+                    <h1>My Library</h1>
+                    <div class="search-bar">
+                    </div>
+                </center>
+            </header>
+            <div class="content">
+                <center>
+                    <div class="signup-container">
+                        <h2>Add Book</h2>
+                        <form id="add-book-form">
+                            <div class="input-group">
+                                <i class="fas fa-book"></i>
+                                <input type="text" id="book_name" placeholder="Book Name" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="author" placeholder="Author" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="number" id="year_published" placeholder="Year Published" min="0" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-list-ol"></i>
+                                <input list="country-list" id="country" placeholder="Type"/>
+                                <datalist id="country-list">
+                                    <option value="" disabled selected>Select Type </option>
+                                    <option value="1"><i class="fas fa-book"></i> Type 1</option>
+                                    <option value="2"><i class="fas fa-book"></i> Type 2</option>
+                                    <option value="3"><i class="fas fa-book"></i> Type 3</option>
+                                </datalist>
+                            </div>
+                            <div>
+                                <input type="file" id="image_src" accept="image/*" required>
+                            </div> <br>
+                            <button type="button" onclick="addBook()">Add Book</button>
+                            <p id="error-message" class="error-message"></p> <br> <br>
+                        </form>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
+    <!-- Modal HTML -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Book added successfully!</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Coral Landau. All rights reserved.</p>
+        <div class="contact">
+            <p>Contact us:</p>
+            <p><i class="fas fa-envelope"></i> Email: info@library.com</p>
+            <p><i class="fas fa-phone"></i> Phone: 123-456-7890</p>
+        </div>
+    </footer>
+</body>
+</html>
